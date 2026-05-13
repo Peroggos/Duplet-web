@@ -55,7 +55,7 @@ export function MainComp() {
     </div>
     <div className="my-14">«Художник не ищет "кого-нибудь". Он ищет поэта, который пишет про город. А алгоритм это понимает.»</div>
 </section>
-<div className="my-[100px] border-t-2 border-dashed border-gray-300"></div>
+<div className="my-25 border-t-2 border-dashed border-gray-300"></div>
 <section className="flex flex-col items-center gap-12 px-4">
     <h1 className="text-3xl font-bold">Как работает</h1>
     

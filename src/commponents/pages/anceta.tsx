@@ -110,7 +110,14 @@ const Anceta: React.FC = () => {
         return (
           <div className="space-y-4">
             <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
-              <h1>Здесь пока ни чего нет ¯\_(ツ)_/¯ </h1>
+              <span className="text-sm text-gray-600">
+                {fileName ? `Выбран файл: ${fileName}` : 'Нажмите для загрузки файла портфолио'}
+              </span>
+              <input 
+                type="file" 
+                className="hidden" 
+                onChange={handleFileUpload} 
+              />
             </label>
           </div>
         );
@@ -119,6 +126,7 @@ const Anceta: React.FC = () => {
           <div className="text-center p-6 bg-blue-50 rounded-lg">
             <h3 className="text-blue-800 font-bold">Проверьте данные</h3>
             <p className="text-sm text-blue-600 mt-2">Выбрано тегов: {selectedTags.length}</p>
+            {fileName && <p className="text-sm text-blue-600">Файл: {fileName}</p>}
             <button className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors">Отправить форму</button>
           </div>
         );
@@ -169,12 +177,11 @@ const Anceta: React.FC = () => {
               onClick={handleNextStep}
               className="bg-blue-600 text-white px-6 py-2.5 rounded-xl shadow-md hover:bg-blue-700 transition-all font-medium text-sm"
             >
-              {activeStep === steps.length - 1 ? 'Готово' : 'Далее →'}
+              Далее
             </button>
           </div>
         )}
       </div>
-      
     </div>
   );
 };
