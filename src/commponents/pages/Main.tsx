@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Button } from "../common/Button";
-import { Card } from "../common/Card";
+
 import { Home } from "../common/heder";
+import { Link } from "react-router";
 
 export function MainComp() {
     const [isModalOpen, setIsModalOpen] = useState(false
@@ -15,7 +16,7 @@ export function MainComp() {
                     <h2>Dupled — Tinder для творческих коллабораций. Найди того, с кем <p/> сделаешь проект, а не отношения.</h2>
                 <div className="flex gap-6">
                     <Button >
-                        Я здесь, чтобы меня нашли
+                        <Link to='/reg/anc'>Я здесь, чтобы меня нашли</Link>
                     </Button>
                     <Button>
                         Найти соавтора

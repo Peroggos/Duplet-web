@@ -20,7 +20,9 @@ const Anceta: React.FC = () => {
   // Состояния для формы
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [fileName, setFileName] = useState<string | null>(null);
-
+  const [value, setValue] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
+  const options = ['Черемша','Винтик системы','Скультор']
   // Список доступных тегов
   const availableTags = ['Веб-разработчик', 'Диджитал художник', 'UI/UX Дизайнер', 'QA Engineer'];
 
@@ -35,6 +37,12 @@ const Anceta: React.FC = () => {
     if (file) setFileName(file.name);
   };
 
+  const handleNextStep = () => {
+    if (activeStep < steps.length) {
+      setActiveStep(prev => prev + 1);
+    }
+  };
+
   // Функция для отображения разного контента
   const renderStepContent = () => {
     switch (activeStep) {
@@ -42,7 +50,10 @@ const Anceta: React.FC = () => {
         return (
           <div className="space-y-4">
             <input type="text" placeholder="Ваше имя" className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 outline-none" />
+            <input type="text" placeholder="Ваш никнейм" className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 outline-none" />
             <input type="email" placeholder="Email" className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 outline-none" />
+            <input type="password" placeholder="Password" className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 outline-none" />
+            <input type="password" placeholder="Password повторите" className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 outline-none" />
           </div>
         );
       case 2:
@@ -63,6 +74,35 @@ const Anceta: React.FC = () => {
                   #{tag}
                 </button>
               ))}
+              <input 
+              type="text" 
+              value={value}
+              onChange={(e) => setValue(e.target.value)}
+              onFocus={() => setIsOpen(true)}
+              onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+              placeholder='Найди свою специальность'
+              className='w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-400 outline-none'
+              />
+              {isOpen && (
+                options
+                  .filter((opt) => opt.toLowerCase().includes(value.toLowerCase()))
+                  .map((opt) => (
+                    <button
+                      key={opt}
+                  className={`px-4 py-2 rounded-full border text-sm transition-colors ${
+                    selectedTags.includes(opt) 
+                      ? 'bg-blue-600 text-white border-blue-600' 
+                      : 'bg-white text-gray-600 border-gray-300 hover:border-blue-400'}`}
+                      onClick={() => {
+                        setValue(opt);
+                        setIsOpen(false);
+                      }}
+                    >
+                      #{opt}
+                    </button>
+
+                  ))
+              )}
             </div>
           </div>
         );
@@ -70,10 +110,7 @@ const Anceta: React.FC = () => {
         return (
           <div className="space-y-4">
             <label className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors">
-              <div className="text-gray-500 text-sm">
-                {fileName ? `Выбрано: ${fileName}` : "Нажмите для загрузки резюме или работ"}
-              </div>
-              <input type="file" className="hidden" onChange={handleFileUpload} />
+              <h1>Здесь пока ни чего нет ¯\_(ツ)_/¯ </h1>
             </label>
           </div>
         );
@@ -113,16 +150,31 @@ const Anceta: React.FC = () => {
       </nav>
 
       {/* Контент */}
-      <div className="flex-1 max-w-2xl mx-auto p-10">
-        <div className="mb-8">
-          <span className="text-blue-600 font-bold text-sm tracking-widest uppercase">Шаг {activeStep}</span>
-          <h1 className="text-3xl font-black text-gray-900">{steps.find(s => s.id === activeStep)?.name}</h1>
+      <div className="flex-1 max-w-2xl mx-auto p-10 flex flex-col justify-between">
+        <div>
+          <div className="mb-8">
+            <span className="text-blue-600 font-bold text-sm tracking-widest uppercase">Шаг {activeStep}</span>
+            <h1 className="text-3xl font-black text-gray-900">{steps.find(s => s.id === activeStep)?.name}</h1>
+          </div>
+          
+          <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            {renderStepContent()}
+          </div>
         </div>
-        
-        <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-          {renderStepContent()}
-        </div>
+
+        {/* Правый нижний угол для кнопки навигации */}
+        {activeStep < steps.length && (
+          <div className="flex justify-end mt-6">
+            <button
+              onClick={handleNextStep}
+              className="bg-blue-600 text-white px-6 py-2.5 rounded-xl shadow-md hover:bg-blue-700 transition-all font-medium text-sm"
+            >
+              {activeStep === steps.length - 1 ? 'Готово' : 'Далее →'}
+            </button>
+          </div>
+        )}
       </div>
+      
     </div>
   );
 };
